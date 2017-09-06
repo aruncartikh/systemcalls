@@ -9,20 +9,30 @@ void file_operations() {
 	char *c;
 	int length,l;
 
-	c = (char *)malloc(100 * sizeof(char));
+	//Memory allocation
+
 
 	printf("File open \n");
-	if ((fd1 = open("/home/arun/C/syscalls/systemcalls/README.md", O_RDWR | O_CREAT | O_APPEND, 0644)) < 0) {
+	if ((fd1 = open("/home/arun/C/syscalls/systemcalls/README.md", O_RDWR | O_CREAT | O_APPEND, 0644)) < 0) 	{
 		perror("READ ME");
 		free(c);
 		return;
 	}
 
-	printf("File read \n");
-	length = read(fd1,c,100);
+	l = lseek(fd1,0,SEEK_END);
+	printf("End lseek %d \n",l);
+
+	lseek(fd1,0,SEEK_SET);
+	c = (char *)malloc(l * sizeof(char));
+
+	printf("Reading the file \n");
+	length = read(fd1,c,l);
 	printf("Called the read() %d\n",length);
+	printf("*************************************************\n");
+	//Terminate with null
 	c[length] ='\0';
-	printf("Data in the file is %s",c);
+	printf("%s",c);
+	printf("*************************************************\n");
 
 	printf("File lseek \n");
 	l = lseek(fd1, 0, SEEK_CUR);
@@ -53,6 +63,6 @@ void file_operations() {
 	printf("unlink example - Removing abc.txt\n");
 	unlink("abc.txt");
 
-
+	free(c);
 }
 

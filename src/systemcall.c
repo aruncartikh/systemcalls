@@ -10,8 +10,7 @@ void call_fork();
 
 void call_exit() {
 	printf("Calling exit function \n");
-	//system call exit
-	exit(1);
+	exit(1); //system call exit
 }
 
 void call_fork()
@@ -19,20 +18,24 @@ void call_fork()
 	pid_t pid;
 	int rv;
 
+	// fork creates a child with a different pid
+	// return value -1: error 0: child process >0: parent process
+	printf("Calling fork - Child process to be born\n");
 	switch(pid = fork()) {
 	case -1:
 		perror("fork");
 		exit(1);
 	case 0:
-		printf(" Child\n");
-		printf("PID %d \n",getpid());
-		printf("Parent PID %d \n",getppid());
-		scanf("Waits for input %d",&rv);
+		printf("Child Process ");
+		printf("PID %d ",getpid());         //get pid
+		printf("Parent PID %d \n",getppid()); //get parent pid
+		scanf("%d",&rv);
 		exit(rv);
 	default:
-		printf("Parent \n");
-		printf("PID %d \n",getpid());
+		printf("Parent Process running ");
+		printf("PID %d ",getpid());
 		printf("Chid Pid %d\n", pid);
+		printf("Waiting for the child process to exit\n");
 		wait(&rv);
 		printf("Parent exits status %d\n",WEXITSTATUS(rv));
 	}
@@ -41,16 +44,12 @@ void call_fork()
 int main()
 {
 	int a;
-	printf("1. Exit Example \n");
-	printf("2. Fork Example \n");
-	printf("3. File operation Example \n");
-	scanf("%d",&a);
+	a = show_menu();
 	switch (a) {
 		case 1:
 			call_exit();
 			break;
 		case 2:
-			printf("CAlling fork \n");
 			call_fork();
 			break;
 		case 3:
