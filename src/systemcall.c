@@ -4,7 +4,7 @@
 #include<unistd.h>
 #include<sys/types.h>
 #include<sys/wait.h>
-
+#include "../include/system_hf.h"
 void call_exit();
 void call_fork();
 
@@ -41,9 +41,11 @@ void call_fork()
 int main()
 {
 	int a;
-	printf("Type 1 to exit the program \nType 2 see fork example\n");
+	printf("1. Exit Example \n");
+	printf("2. Fork Example \n");
+	printf("3. File operation Example \n");
 	scanf("%d",&a);
-	switch(a) {
+	switch (a) {
 		case 1:
 			call_exit();
 			break;
@@ -51,9 +53,11 @@ int main()
 			printf("CAlling fork \n");
 			call_fork();
 			break;
+		case 3:
+			file_operations();
+			break;
 		default:
-			scanf("%d",&a);
-			printf("Does not exit \n");
+			printf("Wrong data Exiting");
 			break;
 	}
 }
